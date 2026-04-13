@@ -22,9 +22,9 @@ jobs:
               --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
               --document-name "AWS-RunShellScript" \
               --parameters "commands=[
-                  'sudo docker stop nginx-container || true',
-                  'sudo docker rm nginx-container || true',
-                  'sudo docker run -d --name nginx-container -p 81:81 ${{ secrets.DOCKER_IMAGE }}'                  
+                  'docker stop nginx-container || true',
+                  'docker rm nginx-container || true',
+                  'docker run -d --name nginx-container -p 81:81 ${{ secrets.DOCKER_IMAGE }}'                  
                               
               ]" \
               --region ${{ secrets.AWS_REGION }} \
