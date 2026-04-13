@@ -16,14 +16,16 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - name: Deploy from S3 to EC2 using SSM
+      - name: Deploy container via SSM
         run: |
           aws ssm send-command \
+              --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
               --document-name "AWS-RunShellScript" \
               --parameters "commands=[
-                  \"sudo aws s3 sync s3://${{ secrets.S3_BUCKET_NAME }}/html/ /usr/share/nginx/html/ --delete\",
-                  \"sudo chown -R ec2-user:nginx /usr/share/nginx/html/\",
-                  \"sudo systemctl reload nginx\"            
+                  'docker stop nginx-container || true',
+                  'docker rm nginx-container || true',
+                  'docker run -d --name nginx-container -p 80:80 ${{ secrets.DOCKER_IMAGE }}'                  
+                              
               ]" \
               --region ${{ secrets.AWS_REGION }} \
-              --comment "Deploying website from S3 to EC2"
+              --comment "Deploying container via SSM"
