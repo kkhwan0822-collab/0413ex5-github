@@ -19,12 +19,12 @@ jobs:
       - name: Deploy container via SSM
         run: |
           aws ssm send-command \
-              --instance-ids "i-0374d6048a9230a9c"\
+              --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
               --document-name "AWS-RunShellScript" \
               --parameters "commands=[
                   'sudo docker stop nginx-container || true',
                   'sudo docker rm nginx-container || true',
-                  'sudo docker run -d --name nginx-container -p 81:81 nginx:latest'                  
+                  'sudo docker run -d --name nginx-container -p 81:81 ${{ secrets.DOCKER_IMAGE }}'                  
                               
               ]" \
               --region ${{ secrets.AWS_REGION }} \
