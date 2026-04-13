@@ -24,7 +24,7 @@ jobs:
               --parameters "commands=[
                   'sudo docker stop nginx-container || true',
                   'sudo docker rm nginx-container || true',
-                  'sudo docker run -d --name nginx-container -p 80:80 dkxm0908/megazone-nginx:v1'                  
+                  'sudo docker run -d --name nginx-container -p 80:80 nginx:latest'                  
                               
               ]" \
               --region ${{ secrets.AWS_REGION }} \
