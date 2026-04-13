@@ -24,8 +24,7 @@ jobs:
               --parameters "commands=[
                   'docker stop nginx-container || true',
                   'docker rm nginx-container || true',
-                  'docker run -d --name nginx-container -p 81:81 ${{ secrets.DOCKER_IMAGE }}'                  
-                              
+                  'docker run -d --name nginx-container -p 81:81 ${{ secrets.DOCKER_IMAGE }}'                              
               ]" \
               --region ${{ secrets.AWS_REGION }} \
               --comment "Deploying container via SSM"
